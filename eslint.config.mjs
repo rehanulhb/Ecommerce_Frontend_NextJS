@@ -1,6 +1,7 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import { dirname } from "path";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -13,6 +14,25 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+    },
+  },
 ]);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+// const eslintConfig = [
+//   ...compat.extends("next/core-web-vitals", "next/typescript"),
+//   {
+//     rules: {
+//       "@typescript-eslint/no-explicit-any": "warn",
+//     },
+//   },
+// ];
 
 export default eslintConfig;

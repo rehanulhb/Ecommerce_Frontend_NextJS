@@ -15,18 +15,34 @@ import Logo from "@/app/assets/svgs/Logo";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema } from "./registerValidation";
+import { registerUser } from "@/services/AuthService";
+import { toast } from "sonner";
 
 const RegisterForm = () => {
   const form = useForm({
     resolver: zodResolver(registrationSchema),
   });
 
+  const {
+    formState: { isSubmitting },
+  } = form;
+
   const password = form.watch("password");
   const passwordConfirm = form.watch("passwordConfirm");
   // console.log(password, passwordConfirm);
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const res = await registerUser(data);
+      if (res?.success) {
+        toast.success(res?.message);
+        console.log(res);
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (err: any) {
+      console.error(err);
+    }
   };
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
@@ -104,7 +120,7 @@ const RegisterForm = () => {
             type="submit"
             className="mt-5 w-full"
           >
-            {/* {isSubmitting ? "Registering...." : "Register"} */}
+            {isSubmitting ? "Registering...." : "Register"}
           </Button>
         </form>
       </Form>
