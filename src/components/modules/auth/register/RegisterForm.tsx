@@ -1,14 +1,5 @@
 "use client";
 
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   Form,
@@ -29,6 +20,10 @@ const RegisterForm = () => {
   const form = useForm({
     resolver: zodResolver(registrationSchema),
   });
+
+  const password = form.watch("password");
+  const passwordConfirm = form.watch("passwordConfirm");
+  // console.log(password, passwordConfirm);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     console.log(data);
@@ -96,15 +91,21 @@ const RegisterForm = () => {
                   <Input type="password" {...field} value={field.value || ""} />
                 </FormControl>
 
-                {/* {passwordConfirm && password !== passwordConfirm ? (
+                {passwordConfirm && password !== passwordConfirm ? (
                   <FormMessage> Password does not match </FormMessage>
                 ) : (
                   <FormMessage />
-                )} */}
+                )}
               </FormItem>
             )}
           />
-          <Button type="submit">Register</Button>
+          <Button
+            disabled={passwordConfirm && password !== passwordConfirm}
+            type="submit"
+            className="mt-5 w-full"
+          >
+            {/* {isSubmitting ? "Registering...." : "Register"} */}
+          </Button>
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">
