@@ -1,5 +1,6 @@
 // import Logo from "@/app/assets/svgs/Logo";
-import Logo from "@/src/app/assets/svgs/Logo";
+
+import Logo from "@/app/assets/svgs/Logo";
 import { Facebook, Instagram, X } from "lucide-react";
 import Link from "next/link";
 

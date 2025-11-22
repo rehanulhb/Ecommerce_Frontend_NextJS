@@ -1,5 +1,6 @@
 // import Logo from "@/app/assets/svgs/Logo";
-import Logo from "@/src/app/assets/svgs/Logo";
+
+import Logo from "@/app/assets/svgs/Logo";
 import { Button } from "../ui/button";
 import { Heart, ShoppingBag } from "lucide-react";
 
