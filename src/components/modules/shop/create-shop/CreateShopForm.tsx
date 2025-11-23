@@ -12,15 +12,12 @@ import {
 import { Input } from "../../../../../components/ui/input";
 import { Button } from "../../../../../components/ui/button";
 import Logo from "@/app/assets/svgs/Logo";
-import Link from "next/link";
-import { zodResolver } from "@hookform/resolvers/zod";
-// import { registrationSchema } from "./registerValidation";
-import { registerUser } from "@/services/AuthService";
-import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
-import NMImageUploaded from "@/components/ui/core/NMImageUploaded";
+import NMImageUploader from "@/components/ui/core/NMImageUploader";
+import { useState } from "react";
 
 const CreateShopForm = () => {
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -216,7 +213,10 @@ const CreateShopForm = () => {
                 />
               </div>
             )} */}
-            <NMImageUploaded />
+            <NMImageUploader
+              imageFiles={imageFiles}
+              setImageFiles={setImageFiles}
+            />
           </div>
 
           <Button type="submit" className="mt-5 w-full">
