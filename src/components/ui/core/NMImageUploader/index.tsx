@@ -1,20 +1,24 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Input } from "../../../../../components/ui/input";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 type TImageUploadedProps = {
-  imageFiles: File[] | [];
-  setImageFiles: Dispatch<SetStateAction<[] | File[]>>;
+  label?: string;
+  className?: string;
+  setImageFiles: React.Dispatch<React.SetStateAction<[] | File[]>>;
+  setImagePreview: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 const NMImageUploader = ({
-  imageFiles,
+  label = "Upload Images",
+  className,
   setImageFiles,
+  setImagePreview,
 }: TImageUploadedProps) => {
-  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
+
     setImageFiles((prev) => [...prev, file]);
 
     if (file) {
@@ -29,33 +33,22 @@ const NMImageUploader = ({
   };
 
   return (
-    <div>
+    <div className={cn("flex flex-col items-center w-full gap-4", className)}>
       <Input
-        onChange={handleImageChange}
+        id="image-uploaded"
         type="file"
         multiple
         accept="image/*"
         className="hidden"
-        id="image-uploaded"
+        onChange={handleImageChange}
       />
       <label
+        htmlFor="image-uploaded"
         className="w-full h-36 md:size-36 flex items-center justify-center border-2 border-dashed 
         border-gray-300 rounded-md cursor-pointer text-center text-sm text-gray-500 hover:bg-gray-50 transition"
-        htmlFor="image-uploaded"
       >
-        Upload Logo
+        {label}
       </label>
-      <div>
-        {imagePreview.map((preview, idx) => (
-          <Image
-            key={idx}
-            src={preview}
-            width={500}
-            height={500}
-            alt="images"
-          />
-        ))}
-      </div>
     </div>
   );
 };
