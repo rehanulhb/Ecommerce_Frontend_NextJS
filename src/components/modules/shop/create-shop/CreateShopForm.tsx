@@ -23,6 +23,19 @@ const CreateShopForm = () => {
   const form = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const servicesOffered = data?.servicesOffered
+      .split(",")
+      .map((service: string) => service.trim())
+      .filter((service: string) => service !== "");
+
+    const modifiedData = {
+      ...data,
+      servicesOffered: servicesOffered,
+      establishedYear: Number(data?.establishedYear),
+    };
+
+    console.log(modifiedData);
+
     try {
       console.log(data);
     } catch (err: any) {
