@@ -1,11 +1,13 @@
+import { getCurrentUser } from "@/services/AuthService";
 
-
-const HomePage = () => {
-    return (
-        <div>
-            <h1>Welcome to Ecommerce Home Page</h1>
-        </div>
-    );
+const HomePage = async () => {
+  const user = await getCurrentUser();
+  console.log(user);
+  return (
+    <div>
+      <h1>Welcome to Ecommerce Home Page</h1>
+    </div>
+  );
 };
 
 export default HomePage;
