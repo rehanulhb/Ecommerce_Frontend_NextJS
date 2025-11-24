@@ -16,11 +16,17 @@ import { Textarea } from "@/components/ui/textarea";
 import NMImageUploader from "@/components/ui/core/NMImageUploader";
 import { useState } from "react";
 import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer";
+import { createShop } from "@/services/Shop";
+import { toast } from "sonner";
 
 const CreateShopForm = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
   const form = useForm();
+
+  const {
+    formState: { isSubmitting },
+  } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const servicesOffered = data?.servicesOffered
@@ -34,10 +40,18 @@ const CreateShopForm = () => {
       establishedYear: Number(data?.establishedYear),
     };
 
-    console.log(modifiedData);
-
     try {
-      console.log(data);
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(modifiedData));
+      formData.append("logo", imageFiles[0] as File);
+
+      const res = await createShop(formData);
+
+      console.log(res);
+
+      if (res?.success) {
+        toast.success(res?.message);
+      }
     } catch (err: any) {
       console.error(err);
     }
@@ -231,8 +245,7 @@ const CreateShopForm = () => {
           </div>
 
           <Button type="submit" className="mt-5 w-full">
-            Create
-            {/* {isSubmitting ? "Creating...." : "Create"} */}
+            {isSubmitting ? "Creating...." : "Create"}
           </Button>
         </form>
       </Form>
