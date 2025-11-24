@@ -25,6 +25,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useState } from "react";
 import { createCategory } from "@/services/Category";
+import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer";
+import NMImageUploader from "@/components/ui/core/NMImageUploader";
 
 const CreateCategoryModal = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
@@ -59,7 +61,7 @@ const CreateCategoryModal = () => {
       <DialogTrigger asChild>
         <Button>Create Category</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Create Product Category</DialogTitle>
         </DialogHeader>
@@ -97,7 +99,7 @@ const CreateCategoryModal = () => {
                 )}
               />
 
-              {/* {imagePreview.length > 0 ? (
+              {imagePreview.length > 0 ? (
                 <ImagePreviewer
                   setImageFiles={setImageFiles}
                   imagePreview={imagePreview}
@@ -112,7 +114,7 @@ const CreateCategoryModal = () => {
                     label="Upload Icon"
                   />
                 </div>
-              )} */}
+              )}
             </div>
 
             <Button type="submit" className="mt-5 w-full">
