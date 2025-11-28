@@ -1,5 +1,6 @@
 "use client";
 
+import HeroSection from "@/components/modules/home/HeroSection";
 import { useUser } from "@/context/UserContext";
 
 const HomePage = () => {
@@ -7,7 +8,7 @@ const HomePage = () => {
   console.group(user);
   return (
     <div>
-      <h1>Welcome to Ecommerce Home Page</h1>
+      <HeroSection />
     </div>
   );
 };

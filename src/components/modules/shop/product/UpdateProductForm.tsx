@@ -222,7 +222,11 @@ export default function UpdateProductForm({ product }: { product: IProduct }) {
                     </FormControl>
                     <SelectContent>
                       {categories.map((category) => (
-                        <SelectItem key={category?._id} value={category?._id}>
+                        <SelectItem
+                          className="w-40"
+                          key={category?._id}
+                          value={category?._id}
+                        >
                           {category?.name}
                         </SelectItem>
                       ))}
@@ -250,7 +254,11 @@ export default function UpdateProductForm({ product }: { product: IProduct }) {
                     </FormControl>
                     <SelectContent>
                       {brands.map((brand) => (
-                        <SelectItem key={brand?._id} value={brand?._id}>
+                        <SelectItem
+                          className="width: 100px"
+                          key={brand?._id}
+                          value={brand?._id}
+                        >
                           {brand?.name}
                         </SelectItem>
                       ))}
