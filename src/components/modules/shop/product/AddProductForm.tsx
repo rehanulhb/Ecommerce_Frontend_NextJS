@@ -130,9 +130,9 @@ export default function AddProductsForm() {
       availableColors,
       keyFeatures,
       specification,
-      price: parseFloat(data.price),
-      stock: parseInt(data.stock),
-      weight: parseFloat(data.stock),
+      price: parseFloat(data?.price),
+      stock: parseInt(data?.stock),
+      weight: parseFloat(data?.weight),
     };
 
     const formData = new FormData();
@@ -144,11 +144,11 @@ export default function AddProductsForm() {
     try {
       const res = await addProduct(formData);
 
-      if (res.success) {
-        toast.success(res.message);
+      if (res?.success) {
+        toast.success(res?.message);
         router.push("/user/shop/products");
       } else {
-        toast.error(res.message);
+        toast.error(res?.message);
       }
     } catch (err: any) {
       console.error(err);
