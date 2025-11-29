@@ -1,4 +1,5 @@
 import Category from "@/components/modules/home/Category";
+import FeaturedProducts from "@/components/modules/home/FeaturedProducts";
 import HeroSection from "@/components/modules/home/HeroSection";
 import { useUser } from "@/context/UserContext";
 
@@ -7,6 +8,7 @@ const HomePage = () => {
     <div>
       <HeroSection />
       <Category />
+      <FeaturedProducts />
     </div>
   );
 };
