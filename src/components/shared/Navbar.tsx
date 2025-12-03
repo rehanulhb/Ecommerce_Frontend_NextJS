@@ -76,9 +76,8 @@ export default function Navbar() {
                       Profile
                       <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      Dashboard
-                      <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    <DropdownMenuItem>
+                      <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer">
                       My Shop
