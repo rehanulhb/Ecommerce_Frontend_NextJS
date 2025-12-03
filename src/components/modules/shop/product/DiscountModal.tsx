@@ -16,12 +16,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { addFlashSale } from "@/services/FlashSale";
+import { toast } from "sonner";
+import { Dispatch, SetStateAction } from "react";
 
 type TModalProps = {
   selectedIds: string[];
+  setSelectedIds: Dispatch<SetStateAction<string[] | []>>;
 };
 
-const DiscountModal = ({ selectedIds }: TModalProps) => {
+const DiscountModal = ({ selectedIds, setSelectedIds }: TModalProps) => {
   const form = useForm();
 
   const {
@@ -33,9 +37,15 @@ const DiscountModal = ({ selectedIds }: TModalProps) => {
       products: [...selectedIds],
       discountPercentage: parseFloat(data?.discountPercentage),
     };
-    console.log(modifiedData);
 
     try {
+      const res = await addFlashSale(modifiedData);
+      if (res.success) {
+        toast.success(res.message);
+        setSelectedIds([]);
+      } else {
+        toast.error(res.message);
+      }
     } catch (err: any) {
       console.error(err);
     }

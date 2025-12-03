@@ -17,7 +17,7 @@ const Category = async () => {
         </Link>
       </div>
       <div className="grid grid-cols-6 gap-8 my-5">
-        {categories.map((category: ICategory, idx: number) => (
+        {categories?.slice(0, 6)?.map((category: ICategory, idx: number) => (
           <CategoryCard key={idx} category={category} />
         ))}
       </div>
