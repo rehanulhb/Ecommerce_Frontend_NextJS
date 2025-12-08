@@ -41,7 +41,7 @@ export default function Navbar() {
       <div className="container flex justify-between items-center mx-auto h-16 px-3">
         <h1 className="text-2xl font-black flex items-center">
           <Logo />
-          Ecom Mart
+          <Link href="/">Ecom Mart</Link>
         </h1>
         <div className="max-w-md  flex-grow">
           <input
@@ -54,9 +54,12 @@ export default function Navbar() {
           <Button variant="outline" className="rounded-full p-0 size-10">
             <Heart />
           </Button>
-          <Button variant="outline" className="rounded-full p-0 size-10">
-            <ShoppingBag />
-          </Button>
+          <Link href="/cart">
+            <Button variant="outline" className="rounded-full p-0 size-10">
+              <ShoppingBag />
+            </Button>
+          </Link>
+
           {user ? (
             <>
               <Link href="/create-shop">
