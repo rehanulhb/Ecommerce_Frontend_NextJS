@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
+import { subTotalSelector } from "@/redux/features/cartSlice";
+import { useAppSelector } from "@/redux/hooks";
 // import { currencyFormatter } from "@/lib/currencyFormatter";
 // import {
 //   citySelector,
@@ -20,7 +22,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function PaymentDetails() {
-  //   const subTotal = useAppSelector(subTotalSelector);
+  const subTotal = useAppSelector(subTotalSelector);
   //   const shippingCost = useAppSelector(shippingCostSelector);
   //   const grandTotal = useAppSelector(grandTotalSelector);
   //   const order = useAppSelector(orderSelector);
@@ -75,7 +77,7 @@ export default function PaymentDetails() {
       <div className="space-y-2 mt-4">
         <div className="flex justify-between">
           <p className="text-gray-500 ">Subtotal</p>
-          {/* <p className="font-semibold">{currencyFormatter(subTotal)}</p> */}
+          <p className="font-semibold">{subTotal}</p>
         </div>
         <div className="flex justify-between">
           <p className="text-gray-500 ">Discount</p>
