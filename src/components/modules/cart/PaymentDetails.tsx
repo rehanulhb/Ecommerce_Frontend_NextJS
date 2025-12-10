@@ -2,7 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
+import { currencyFormatter } from "@/lib/currencyFormatter";
 import {
+  grandTotalSelector,
   orderSelector,
   shippingCostSelector,
   subTotalSelector,
@@ -28,7 +30,7 @@ import { toast } from "sonner";
 export default function PaymentDetails() {
   const subTotal = useAppSelector(subTotalSelector);
   const shippingCost = useAppSelector(shippingCostSelector);
-  //   const grandTotal = useAppSelector(grandTotalSelector);
+  const grandTotal = useAppSelector(grandTotalSelector);
   const order = useAppSelector(orderSelector);
   //   const city = useAppSelector(citySelector);
   //   const shippingAddress = useAppSelector(shippingAddressSelector);
@@ -81,20 +83,20 @@ export default function PaymentDetails() {
       <div className="space-y-2 mt-4">
         <div className="flex justify-between">
           <p className="text-gray-500 ">Subtotal</p>
-          <p className="font-semibold">{subTotal}</p>
+          <p className="font-semibold">{currencyFormatter(subTotal)}</p>
         </div>
         <div className="flex justify-between">
           <p className="text-gray-500 ">Discount</p>
-          {/* <p className="font-semibold">{currencyFormatter(0)}</p> */}
+          <p className="font-semibold">{currencyFormatter(0)}</p>
         </div>
         <div className="flex justify-between">
           <p className="text-gray-500 ">Shipment Cost</p>
-          <p className="font-semibold">{shippingCost}</p>
+          <p className="font-semibold">{currencyFormatter(shippingCost)}</p>
         </div>
       </div>
       <div className="flex justify-between mt-10 mb-5">
         <p className="text-gray-500 ">Grand Total</p>
-        {/* <p className="font-semibold">{currencyFormatter(grandTotal)}</p> */}
+        {<p className="font-semibold">{currencyFormatter(grandTotal)}</p>}
       </div>
       <Button
         onClick={handleOrder}
