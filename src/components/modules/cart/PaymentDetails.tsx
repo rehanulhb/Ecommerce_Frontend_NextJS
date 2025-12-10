@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/UserContext";
 import { currencyFormatter } from "@/lib/currencyFormatter";
 import {
+  citySelector,
   grandTotalSelector,
+  orderedProductsSelector,
   orderSelector,
+  shippingAddressSelector,
   shippingCostSelector,
   subTotalSelector,
 } from "@/redux/features/cartSlice";
@@ -32,9 +35,9 @@ export default function PaymentDetails() {
   const shippingCost = useAppSelector(shippingCostSelector);
   const grandTotal = useAppSelector(grandTotalSelector);
   const order = useAppSelector(orderSelector);
-  //   const city = useAppSelector(citySelector);
-  //   const shippingAddress = useAppSelector(shippingAddressSelector);
-  //   const cartProducts = useAppSelector(orderedProductsSelector);
+  const city = useAppSelector(citySelector);
+  const shippingAddress = useAppSelector(shippingAddressSelector);
+  const cartProducts = useAppSelector(orderedProductsSelector);
 
   const user = useUser();
 
