@@ -5,6 +5,7 @@ import { useUser } from "@/context/UserContext";
 import { currencyFormatter } from "@/lib/currencyFormatter";
 import {
   citySelector,
+  clearCart,
   grandTotalSelector,
   orderedProductsSelector,
   orderSelector,
@@ -12,7 +13,7 @@ import {
   shippingCostSelector,
   subTotalSelector,
 } from "@/redux/features/cartSlice";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 // import { currencyFormatter } from "@/lib/currencyFormatter";
 // import {
 //   citySelector,
@@ -43,7 +44,7 @@ export default function PaymentDetails() {
 
   const router = useRouter();
 
-  //   const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleOrder = async () => {
     const orderLoading = toast.loading("Order is being placed");
@@ -65,6 +66,7 @@ export default function PaymentDetails() {
       }
 
       const res = await createOrder(order);
+      console.log(res);
 
       if (res.success) {
         toast.success(res.message, { id: orderLoading });
