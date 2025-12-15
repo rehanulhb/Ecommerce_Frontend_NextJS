@@ -18,9 +18,9 @@ export default function StoreProvider({ children }: { children: ReactNode }) {
 
   return (
     <Provider store={storeRef.current}>
-      <PersistGate loading={<Loading />} persistor={persistedStore}>
-        {children}
-      </PersistGate>
+      {/* <PersistGate loading={<Loading />} persistor={persistedStore}> */}
+      {children}
+      {/* </PersistGate> */}
     </Provider>
   );
 }
