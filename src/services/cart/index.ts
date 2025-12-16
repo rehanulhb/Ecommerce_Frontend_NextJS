@@ -20,7 +20,11 @@ export const createOrder = async (order: IOrder) => {
   }
 };
 
-export const addCoupon = async ({ shopId, subTotal, couponCode }: ICoupon) => {
+export const addCoupon = async (
+  couponCode: string,
+  subTotal: number,
+  shopId: string
+) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/coupon/${couponCode}`,

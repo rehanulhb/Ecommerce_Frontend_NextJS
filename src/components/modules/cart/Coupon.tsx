@@ -9,7 +9,6 @@ import { toast } from "sonner";
 import { useAppSelector } from "@/redux/hooks";
 import { shopSelector, subTotalSelector } from "@/redux/features/cartSlice";
 import { addCoupon } from "@/services/cart";
-import { ICoupon } from "@/types/cart";
 
 export default function Coupon() {
   const subTotal = useAppSelector(subTotalSelector);
@@ -25,13 +24,7 @@ export default function Coupon() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const couponData = {
-        orderAmount: subTotal,
-        shopId,
-        couponCode: data.coupon as string,
-      };
-
-      const res = await addCoupon(couponData);
+      const res = await addCoupon(data.coupon, subTotal, shopId);
       console.log(res);
     } catch (error: any) {
       console.log(error);
