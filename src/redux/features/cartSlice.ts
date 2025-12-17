@@ -12,6 +12,12 @@ interface InitialState {
   city: string;
   shippingAddress: string;
   shopId: string;
+  coupon: {
+    code: string;
+    discountAmount: number;
+    isLoading: boolean;
+    error: string;
+  };
 }
 
 const initialState: InitialState = {
@@ -19,6 +25,12 @@ const initialState: InitialState = {
   city: "",
   shippingAddress: "",
   shopId: "",
+  coupon: {
+    code: "",
+    discountAmount: 0,
+    isLoading: false,
+    error: "",
+  },
 };
 
 export const fetchCoupon = createAsyncThunk(
@@ -34,6 +46,10 @@ export const fetchCoupon = createAsyncThunk(
   }) => {
     try {
       const res = await addCoupon(couponCode, subTotal, shopId);
+
+      if (!res.success) {
+        throw new Error(res.message);
+      }
 
       return res;
     } catch (err: any) {
@@ -98,15 +114,22 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCoupon.pending, (state, action) =>
-      console.log(action, "Pending")
-    );
-    builder.addCase(fetchCoupon.rejected, (state, action) =>
-      console.log(action, "Rejected")
-    );
-    builder.addCase(fetchCoupon.fulfilled, (state, action) =>
-      console.log(action, "FullFilled")
-    );
+    builder.addCase(fetchCoupon.pending, (state) => {
+      state.coupon.isLoading = true;
+      state.coupon.error = "";
+    });
+    builder.addCase(fetchCoupon.rejected, (state, action) => {
+      state.coupon.isLoading = false;
+      state.coupon.error = action.error.message as string;
+      state.coupon.code = "";
+      state.coupon.discountAmount = 0;
+    });
+    builder.addCase(fetchCoupon.fulfilled, (state, action) => {
+      state.coupon.isLoading = false;
+      state.coupon.error = "";
+      state.coupon.code = action.payload.data.coupon.code;
+      state.coupon.discountAmount = action.payload.data.dicountAmount;
+    });
   },
 });
 
@@ -163,6 +186,10 @@ export const grandTotalSelector = (state: RootState) => {
   const shippingCost = shippingCostSelector(state);
 
   return subTotal + shippingCost;
+};
+
+export const couponSelector = (state: RootState) => {
+  return state.cart.coupon;
 };
 
 export const citySelector = (state: RootState) => {

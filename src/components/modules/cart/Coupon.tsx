@@ -6,13 +6,21 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { toast } from "sonner";
-import { useAppSelector } from "@/redux/hooks";
-import { shopSelector, subTotalSelector } from "@/redux/features/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  couponSelector,
+  fetchCoupon,
+  shopSelector,
+  subTotalSelector,
+} from "@/redux/features/cartSlice";
 import { addCoupon } from "@/services/cart";
 
 export default function Coupon() {
   const subTotal = useAppSelector(subTotalSelector);
   const shopId = useAppSelector(shopSelector);
+  const { isLoading, code, error } = useAppSelector(couponSelector);
+
+  const dispatch = useAppDispatch();
 
   const form = useForm();
 
@@ -24,8 +32,11 @@ export default function Coupon() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const res = await addCoupon(data.coupon, subTotal, shopId);
-      console.log(res);
+      const res = await dispatch(
+        fetchCoupon({ couponCode: data.coupon, subTotal, shopId })
+      ).unwrap();
+
+      console.log(res, "Inside component");
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);
@@ -62,7 +73,7 @@ export default function Coupon() {
                 type="submit"
                 className="w-full text-xl font-semibold py-5 "
               >
-                Apply
+                {isLoading ? "Applying" : "Apply"}
               </Button>
               {couponInput && (
                 <Button
