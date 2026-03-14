@@ -56,7 +56,7 @@ export const fetchCoupon = createAsyncThunk(
       console.log(err);
       throw new Error(err.message);
     }
-  }
+  },
 );
 
 const cartSlice = createSlice({
@@ -67,8 +67,9 @@ const cartSlice = createSlice({
       if (state.products.length === 0) {
         state.shopId = action.payload.shop._id;
       }
+
       const productToAdd = state.products.find(
-        (product) => product._id === action.payload._id
+        (product) => product._id === action.payload._id,
       );
 
       if (productToAdd) {
@@ -80,25 +81,27 @@ const cartSlice = createSlice({
     },
     incrementOrderQuantity: (state, action) => {
       const productToIncrement = state.products.find(
-        (product) => product._id === action.payload
+        (product) => product._id === action.payload,
       );
+
       if (productToIncrement) {
         productToIncrement.orderQuantity += 1;
         return;
       }
     },
     decrementOrderQuantity: (state, action) => {
-      const productToDecrement = state.products.find(
-        (product) => product._id === action.payload
+      const productToIncrement = state.products.find(
+        (product) => product._id === action.payload,
       );
-      if (productToDecrement && productToDecrement.orderQuantity > 1) {
-        productToDecrement.orderQuantity -= 1;
+
+      if (productToIncrement && productToIncrement.orderQuantity > 1) {
+        productToIncrement.orderQuantity -= 1;
         return;
       }
     },
     removeProduct: (state, action) => {
       state.products = state.products.filter(
-        (product) => product._id !== action.payload
+        (product) => product._id !== action.payload,
       );
     },
     updateCity: (state, action) => {
@@ -128,10 +131,12 @@ const cartSlice = createSlice({
       state.coupon.isLoading = false;
       state.coupon.error = "";
       state.coupon.code = action.payload.data.coupon.code;
-      state.coupon.discountAmount = action.payload.data.dicountAmount;
+      state.coupon.discountAmount = action.payload.data.discountAmount;
     });
   },
 });
+
+//* Products
 
 export const orderedProductsSelector = (state: RootState) => {
   return state.cart.products;
@@ -142,7 +147,7 @@ export const orderSelector = (state: RootState) => {
     products: state.cart.products.map((product) => ({
       product: product._id,
       quantity: product.orderQuantity,
-      color: "white",
+      color: "White",
     })),
     shippingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
     paymentMethod: "Online",
@@ -152,6 +157,8 @@ export const orderSelector = (state: RootState) => {
 export const shopSelector = (state: RootState) => {
   return state.cart.shopId;
 };
+
+//* Payment
 
 export const subTotalSelector = (state: RootState) => {
   return state.cart.products.reduce((acc, product) => {
@@ -166,16 +173,16 @@ export const subTotalSelector = (state: RootState) => {
 export const shippingCostSelector = (state: RootState) => {
   if (
     state.cart.city &&
-    state.cart.city === "Berlin" &&
+    state.cart.city === "Dhaka" &&
     state.cart.products.length > 0
   ) {
-    return 5;
+    return 60;
   } else if (
     state.cart.city &&
-    state.cart.city !== "Berlin" &&
+    state.cart.city !== "Dhaka" &&
     state.cart.products.length > 0
   ) {
-    return 9;
+    return 120;
   } else {
     return 0;
   }
@@ -184,13 +191,20 @@ export const shippingCostSelector = (state: RootState) => {
 export const grandTotalSelector = (state: RootState) => {
   const subTotal = subTotalSelector(state);
   const shippingCost = shippingCostSelector(state);
+  const discountAmount = discountAmountSelector(state);
 
-  return subTotal + shippingCost;
+  return subTotal - discountAmount + shippingCost;
 };
 
 export const couponSelector = (state: RootState) => {
   return state.cart.coupon;
 };
+
+export const discountAmountSelector = (state: RootState) => {
+  return state.cart.coupon.discountAmount;
+};
+
+//* Address
 
 export const citySelector = (state: RootState) => {
   return state.cart.city;
@@ -209,5 +223,4 @@ export const {
   updateShippingAddress,
   clearCart,
 } = cartSlice.actions;
-
 export default cartSlice.reducer;

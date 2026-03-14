@@ -6,19 +6,18 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { toast } from "sonner";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   couponSelector,
   fetchCoupon,
   shopSelector,
   subTotalSelector,
 } from "@/redux/features/cartSlice";
-import { addCoupon } from "@/services/cart";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 export default function Coupon() {
   const subTotal = useAppSelector(subTotalSelector);
   const shopId = useAppSelector(shopSelector);
-  const { isLoading, code, error } = useAppSelector(couponSelector);
+  const { isLoading, code } = useAppSelector(couponSelector);
 
   const dispatch = useAppDispatch();
 
@@ -33,10 +32,9 @@ export default function Coupon() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await dispatch(
-        fetchCoupon({ couponCode: data.coupon, subTotal, shopId })
+        fetchCoupon({ couponCode: data.coupon, subTotal, shopId }),
       ).unwrap();
-
-      console.log(res, "Inside component");
+      console.log(res, "inside component");
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);
@@ -61,7 +59,7 @@ export default function Coupon() {
                       {...field}
                       className="rounded-full"
                       placeholder="Promo / Coupon code"
-                      value={field.value}
+                      value={field.value || code}
                     />
                   </FormControl>
                 </FormItem>
@@ -73,7 +71,7 @@ export default function Coupon() {
                 type="submit"
                 className="w-full text-xl font-semibold py-5 "
               >
-                {isLoading ? "Applying" : "Apply"}
+                {isLoading ? "Applying..." : "Apply"}
               </Button>
               {couponInput && (
                 <Button

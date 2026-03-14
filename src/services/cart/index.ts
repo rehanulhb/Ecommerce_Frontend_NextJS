@@ -1,6 +1,6 @@
 "use server";
 
-import { ICoupon, IOrder } from "@/types/cart";
+import { IOrder } from "@/types/cart";
 import { cookies } from "next/headers";
 
 export const createOrder = async (order: IOrder) => {
@@ -23,7 +23,7 @@ export const createOrder = async (order: IOrder) => {
 export const addCoupon = async (
   couponCode: string,
   subTotal: number,
-  shopId: string
+  shopId: string,
 ) => {
   try {
     const res = await fetch(
@@ -35,7 +35,7 @@ export const addCoupon = async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ orderAmount: subTotal, shopId }),
-      }
+      },
     );
 
     return await res.json();
